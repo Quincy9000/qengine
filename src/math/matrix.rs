@@ -1,5 +1,7 @@
 use crate::math::vector::*;
 
+use std::ops::*;
+
 pub struct Mat2 {
     pub x: Vec3,
     pub y: Vec3,
