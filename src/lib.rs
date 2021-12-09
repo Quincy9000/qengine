@@ -1,2 +1,2 @@
-pub mod servers;
-pub mod vector;
+pub mod math;
+pub mod net;
