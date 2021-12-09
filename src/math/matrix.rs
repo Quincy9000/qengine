@@ -1,13 +1,13 @@
 use crate::math::vector::*;
 
 pub struct Mat2 {
-    x: Vec3,
-    y: Vec3,
-    z: Vec3,
+    pub x: Vec3,
+    pub y: Vec3,
+    pub z: Vec3,
 }
 
 pub struct Mat3 {
-    x: Vec4,
-    y: Vec4,
-    z: Vec4,
+    pub x: Vec4,
+    pub y: Vec4,
+    pub z: Vec4,
 }
