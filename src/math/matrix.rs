@@ -2,7 +2,7 @@ use crate::math::vector::*;
 
 use std::ops::*;
 
-const dim_char: [char; 4] = ['x', 'y', 'z', 'w'];
+const CHAR_DIM: [char; 4] = ['x', 'y', 'z', 'w'];
 
 pub struct Mat2 {
     pub x: Vec3,
@@ -99,15 +99,15 @@ impl Mat3 {
 impl std::fmt::Display for Mat2 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for i in 0..3 {
-            write!(f, "[ ").expect("lol");
+            write!(f, "[ ")?;
             for j in 0..3 {
                 if j < 2 {
-                    write!(f, "{}{}: {}, ", dim_char[j], dim_char[i], self[i][j]).expect("lol");
+                    write!(f, "{}{}: {}, ", CHAR_DIM[j], CHAR_DIM[i], self[i][j])?;
                 } else {
-                    write!(f, "{}{}: {} ", dim_char[j], dim_char[i], self[i][j]).expect("lol");
+                    write!(f, "{}{}: {} ", CHAR_DIM[j], CHAR_DIM[i], self[i][j])?;
                 }
             }
-            writeln!(f, "]").expect("lol");
+            writeln!(f, "]")?;
         }
         writeln!(f, "")
     }
@@ -116,18 +116,18 @@ impl std::fmt::Display for Mat2 {
 impl std::fmt::Display for Mat3 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for i in 0..4 {
-            write!(f, "[ ").expect("lol");
+            write!(f, "[ ")?;
             for j in 0..4 {
                 if j < 3 {
-                    write!(f, "{}{}: {}, ", dim_char[j], dim_char[i], self[i][j]).expect("lol");
+                    write!(f, "{}{}: {}, ", CHAR_DIM[j], CHAR_DIM[i], self[i][j])?;
                 } else {
-                    write!(f, "{}{}: {} ", dim_char[j], dim_char[i], self[i][j]).expect("lol");
+                    write!(f, "{}{}: {} ", CHAR_DIM[j], CHAR_DIM[i], self[i][j])?;
                 }
             }
             if i < 3 {
-                writeln!(f, "]").expect("lol");
+                writeln!(f, "]")?;
             } else {
-                write!(f, "]").expect("lol");
+                write!(f, "]")?;
             }
         }
         write!(f, "")
