@@ -1,8 +1,6 @@
 use crate::math::vector::*;
-
+use crate::math::*;
 use std::ops::*;
-
-const CHAR_DIM: [char; 4] = ['x', 'y', 'z', 'w'];
 
 pub struct Mat2 {
     pub x: Vec3,
@@ -27,6 +25,62 @@ impl Index<usize> for Mat2 {
             2 => &self.z,
             _ => panic!("Index out of range!"),
         }
+    }
+}
+
+impl Index<X> for Mat2 {
+    type Output = Vec3;
+
+    fn index(&self, _: X) -> &Self::Output {
+        &self.x
+    }
+}
+
+impl Index<Y> for Mat2 {
+    type Output = Vec3;
+
+    fn index(&self, _: Y) -> &Self::Output {
+        &self.y
+    }
+}
+
+impl Index<Z> for Mat2 {
+    type Output = Vec3;
+
+    fn index(&self, _: Z) -> &Self::Output {
+        &self.z
+    }
+}
+
+impl Index<X> for Mat3 {
+    type Output = Vec4;
+
+    fn index(&self, _: X) -> &Self::Output {
+        &self.x
+    }
+}
+
+impl Index<Y> for Mat3 {
+    type Output = Vec4;
+
+    fn index(&self, _: Y) -> &Self::Output {
+        &self.y
+    }
+}
+
+impl Index<Z> for Mat3 {
+    type Output = Vec4;
+
+    fn index(&self, _: Z) -> &Self::Output {
+        &self.z
+    }
+}
+
+impl Index<W> for Mat3 {
+    type Output = Vec4;
+
+    fn index(&self, _: W) -> &Self::Output {
+        &self.z
     }
 }
 
