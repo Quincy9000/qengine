@@ -1,7 +1,7 @@
 use crate::math::*;
 use std::{fmt::Display, ops::*};
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct VecN<T, const N: usize> {
     inner: [T; N],
 }
@@ -13,6 +13,17 @@ pub type Vec4f = VecN<f32, 4>;
 pub type Vec2d = VecN<f64, 2>;
 pub type Vec3d = VecN<f64, 3>;
 pub type Vec4d = VecN<f64, 4>;
+
+impl<T, const N: usize> Default for VecN<T, N>
+where
+    T: Default + Copy,
+{
+    fn default() -> Self {
+        Self {
+            inner: [T::default(); N],
+        }
+    }
+}
 
 impl<T, const N: usize> VecN<T, N>
 where
@@ -63,6 +74,17 @@ where
     {
         self + (e.into() - self) * t
     }
+
+    pub fn clamp(self, min: Self, max: Self) -> Self
+    where
+        T: Clamp<T>,
+    {
+        let mut new = self;
+        for i in 0..N {
+            new[i] = new[i].clamp(min[i], max[i]);
+        }
+        new
+    }
 }
 
 impl<T, const N: usize> Zero for VecN<T, N>
@@ -76,12 +98,86 @@ where
     }
 }
 
+impl<T, const N: usize> One for VecN<T, N>
+where
+    T: One + Copy,
+{
+    fn one() -> Self {
+        Self {
+            inner: [T::one(); N],
+        }
+    }
+}
+
+impl<T, const N: usize> VecN<T, N>
+where
+    T: Default + Zero + One + Neg<Output = T> + Copy,
+{
+    pub fn left() -> Self {
+        let mut v = Self::default();
+        v[X] = -T::one();
+        v
+    }
+
+    pub fn right() -> Self {
+        let mut v = Self::default();
+        v[X] = T::one();
+        v
+    }
+
+    pub fn up() -> Self {
+        let mut v = Self::default();
+        v[Y] = -T::one();
+        v
+    }
+
+    pub fn down() -> Self {
+        let mut v = Self::default();
+        v[Y] = T::one();
+        v
+    }
+}
+
+impl<T> VecN<T, 3>
+where
+    T: Default + Zero + One + Neg<Output = T> + Copy,
+{
+    pub fn forward() -> Self {
+        let mut v = Self::default();
+        v[Z] = -T::one();
+        v
+    }
+
+    pub fn backward() -> Self {
+        let mut v = Self::default();
+        v[Z] = T::one();
+        v
+    }
+}
+
+impl<T> VecN<T, 4>
+where
+    T: Default + Zero + One + Neg<Output = T> + Copy,
+{
+    pub fn forward() -> Self {
+        let mut v = Self::default();
+        v[Z] = -T::one();
+        v
+    }
+
+    pub fn backward() -> Self {
+        let mut v = Self::default();
+        v[Z] = T::one();
+        v
+    }
+}
+
 impl<T, const N: usize> Display for VecN<T, N>
 where
     T: Display,
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{{").expect("Write failed");
+        write!(f, "{{ ").expect("Write failed");
         for i in 0..N {
             let char = CHAR_DIM[i];
             write!(f, "{}: {}", char, self.inner[i]).expect("Write failed");
@@ -89,7 +185,7 @@ where
                 write!(f, ", ").expect("Write failed")
             }
         }
-        write!(f, "}}")
+        write!(f, " }}")
     }
 }
 
@@ -237,6 +333,20 @@ where
     }
 }
 
+impl<T, const N: usize> PartialEq<[T; N]> for VecN<T, N>
+where
+    T: PartialEq,
+{
+    fn eq(&self, other: &[T; N]) -> bool {
+        for i in 0..N {
+            if self.inner[i] != other[i] {
+                return false;
+            }
+        }
+        true
+    }
+}
+
 #[test]
 fn test_new() {
     let mut v1 = Vec2f::from([2.0, 1.0]);
@@ -259,8 +369,44 @@ fn test_math() {
 fn test_lerp() {
     let mut v = Vec2f::from([0.0, 0.0]);
 
-    for _ in 0..10_000 {
-        v = v.lerp([10.0, 10.0], 0.1);
+    for _ in 0..100_000 {
+        v = v.lerp([100.0, 100.0], 0.0001);
         println!("{}", v);
     }
+}
+
+#[test]
+fn test_clamp() {
+    let mut v = Vec2f::from([10.0, 10.0]);
+    println!("{}", v);
+    v = v.clamp(Vec2f::zero(), Vec2f::one());
+    println!("{}", v);
+}
+
+#[test]
+fn test_dirs() {
+    let v = Vec2f::left();
+    println!("{}", v);
+    let v = Vec2f::right();
+    println!("{}", v);
+    let v = Vec2f::up();
+    println!("{}", v);
+    let v = Vec2f::down();
+    println!("{}", v);
+
+    let v = Vec3f::forward();
+    println!("{}", v);
+    let v = Vec3f::backward();
+    println!("{}", v);
+    let v = Vec3f::left();
+    println!("{}", v);
+    let v = Vec3f::right();
+    println!("{}", v);
+    let v = Vec3f::up();
+    println!("{}", v);
+    let v = Vec3f::down();
+    println!("{}", v);
+
+    let v = Vec3f::left() + Vec3f::forward() + Vec3f::up();
+    assert!(v == [-1.0, -1.0, -1.0]);
 }
