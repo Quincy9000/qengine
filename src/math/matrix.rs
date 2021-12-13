@@ -1,4 +1,4 @@
-use crate::math::vector_const::*;
+use crate::math::vector::*;
 use crate::math::*;
 use std::ops::*;
 
