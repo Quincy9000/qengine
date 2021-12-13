@@ -1,4 +1,4 @@
-use crate::math::*;
+pub use crate::math::*;
 use std::{fmt::Display, ops::*};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -13,6 +13,10 @@ pub type Vec4f = VecN<f32, 4>;
 pub type Vec2d = VecN<f64, 2>;
 pub type Vec3d = VecN<f64, 3>;
 pub type Vec4d = VecN<f64, 4>;
+
+pub type Vec2i = VecN<i32, 2>;
+pub type Vec3i = VecN<i32, 3>;
+pub type Vec4i = VecN<i32, 4>;
 
 impl<T, const N: usize> Default for VecN<T, N>
 where
