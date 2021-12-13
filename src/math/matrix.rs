@@ -1,22 +1,22 @@
-use crate::math::vector::*;
+use crate::math::vector_const::*;
 use crate::math::*;
 use std::ops::*;
 
 pub struct Mat2 {
-    pub x: Vec3,
-    pub y: Vec3,
-    pub z: Vec3,
+    pub x: Vec3f,
+    pub y: Vec3f,
+    pub z: Vec3f,
 }
 
 pub struct Mat3 {
-    pub x: Vec4,
-    pub y: Vec4,
-    pub z: Vec4,
-    pub w: Vec4,
+    pub x: Vec4f,
+    pub y: Vec4f,
+    pub z: Vec4f,
+    pub w: Vec4f,
 }
 
 impl Index<usize> for Mat2 {
-    type Output = Vec3;
+    type Output = Vec3f;
 
     fn index(&self, index: usize) -> &Self::Output {
         match index {
@@ -29,7 +29,7 @@ impl Index<usize> for Mat2 {
 }
 
 impl Index<X> for Mat2 {
-    type Output = Vec3;
+    type Output = Vec3f;
 
     fn index(&self, _: X) -> &Self::Output {
         &self.x
@@ -37,7 +37,7 @@ impl Index<X> for Mat2 {
 }
 
 impl Index<Y> for Mat2 {
-    type Output = Vec3;
+    type Output = Vec3f;
 
     fn index(&self, _: Y) -> &Self::Output {
         &self.y
@@ -45,7 +45,7 @@ impl Index<Y> for Mat2 {
 }
 
 impl Index<Z> for Mat2 {
-    type Output = Vec3;
+    type Output = Vec3f;
 
     fn index(&self, _: Z) -> &Self::Output {
         &self.z
@@ -53,7 +53,7 @@ impl Index<Z> for Mat2 {
 }
 
 impl Index<X> for Mat3 {
-    type Output = Vec4;
+    type Output = Vec4f;
 
     fn index(&self, _: X) -> &Self::Output {
         &self.x
@@ -61,7 +61,7 @@ impl Index<X> for Mat3 {
 }
 
 impl Index<Y> for Mat3 {
-    type Output = Vec4;
+    type Output = Vec4f;
 
     fn index(&self, _: Y) -> &Self::Output {
         &self.y
@@ -69,7 +69,7 @@ impl Index<Y> for Mat3 {
 }
 
 impl Index<Z> for Mat3 {
-    type Output = Vec4;
+    type Output = Vec4f;
 
     fn index(&self, _: Z) -> &Self::Output {
         &self.z
@@ -77,7 +77,7 @@ impl Index<Z> for Mat3 {
 }
 
 impl Index<W> for Mat3 {
-    type Output = Vec4;
+    type Output = Vec4f;
 
     fn index(&self, _: W) -> &Self::Output {
         &self.z
@@ -96,7 +96,7 @@ impl IndexMut<usize> for Mat2 {
 }
 
 impl Index<usize> for Mat3 {
-    type Output = Vec4;
+    type Output = Vec4f;
 
     fn index(&self, index: usize) -> &Self::Output {
         match index {

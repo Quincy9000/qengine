@@ -2,7 +2,6 @@ use std::ops::{Index, Neg};
 
 pub mod color;
 pub mod matrix;
-pub mod vector;
 pub mod vector_const;
 
 const CHAR_DIM: [char; 4] = ['x', 'y', 'z', 'w'];
