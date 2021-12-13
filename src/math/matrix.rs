@@ -1,22 +1,28 @@
 use crate::math::vector::*;
 use crate::math::*;
+use std::fmt::Display;
 use std::ops::*;
 
-pub struct Mat2 {
-    pub x: Vec3f,
-    pub y: Vec3f,
-    pub z: Vec3f,
+pub struct Mat2<T> {
+    pub x: VecN<T, 3>,
+    pub y: VecN<T, 3>,
+    pub z: VecN<T, 3>,
 }
 
-pub struct Mat3 {
-    pub x: Vec4f,
-    pub y: Vec4f,
-    pub z: Vec4f,
-    pub w: Vec4f,
+pub struct Mat3<T> {
+    pub x: VecN<T, 4>,
+    pub y: VecN<T, 4>,
+    pub z: VecN<T, 4>,
+    pub w: VecN<T, 4>,
 }
 
-impl Index<usize> for Mat2 {
-    type Output = Vec3f;
+pub type Mat2f = Mat2<f32>;
+pub type Mat2d = Mat2<f64>;
+pub type Mat3f = Mat3<f32>;
+pub type Mat3d = Mat3<f64>;
+
+impl<T> Index<usize> for Mat2<T> {
+    type Output = VecN<T, 3>;
 
     fn index(&self, index: usize) -> &Self::Output {
         match index {
@@ -28,63 +34,63 @@ impl Index<usize> for Mat2 {
     }
 }
 
-impl Index<X> for Mat2 {
-    type Output = Vec3f;
+impl<T> Index<X> for Mat2<T> {
+    type Output = VecN<T, 3>;
 
     fn index(&self, _: X) -> &Self::Output {
         &self.x
     }
 }
 
-impl Index<Y> for Mat2 {
-    type Output = Vec3f;
+impl<T> Index<Y> for Mat2<T> {
+    type Output = VecN<T, 3>;
 
     fn index(&self, _: Y) -> &Self::Output {
         &self.y
     }
 }
 
-impl Index<Z> for Mat2 {
-    type Output = Vec3f;
+impl<T> Index<Z> for Mat2<T> {
+    type Output = VecN<T, 3>;
 
     fn index(&self, _: Z) -> &Self::Output {
         &self.z
     }
 }
 
-impl Index<X> for Mat3 {
-    type Output = Vec4f;
+impl<T> Index<X> for Mat3<T> {
+    type Output = VecN<T, 4>;
 
     fn index(&self, _: X) -> &Self::Output {
         &self.x
     }
 }
 
-impl Index<Y> for Mat3 {
-    type Output = Vec4f;
+impl<T> Index<Y> for Mat3<T> {
+    type Output = VecN<T, 4>;
 
     fn index(&self, _: Y) -> &Self::Output {
         &self.y
     }
 }
 
-impl Index<Z> for Mat3 {
-    type Output = Vec4f;
+impl<T> Index<Z> for Mat3<T> {
+    type Output = VecN<T, 4>;
 
     fn index(&self, _: Z) -> &Self::Output {
         &self.z
     }
 }
 
-impl Index<W> for Mat3 {
-    type Output = Vec4f;
+impl<T> Index<W> for Mat3<T> {
+    type Output = VecN<T, 4>;
 
     fn index(&self, _: W) -> &Self::Output {
         &self.z
     }
 }
 
-impl IndexMut<usize> for Mat2 {
+impl<T> IndexMut<usize> for Mat2<T> {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         match index {
             0 => &mut self.x,
@@ -95,8 +101,8 @@ impl IndexMut<usize> for Mat2 {
     }
 }
 
-impl Index<usize> for Mat3 {
-    type Output = Vec4f;
+impl<T> Index<usize> for Mat3<T> {
+    type Output = VecN<T, 4>;
 
     fn index(&self, index: usize) -> &Self::Output {
         match index {
@@ -109,7 +115,7 @@ impl Index<usize> for Mat3 {
     }
 }
 
-impl IndexMut<usize> for Mat3 {
+impl<T> IndexMut<usize> for Mat3<T> {
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         match index {
             0 => &mut self.x,
@@ -121,12 +127,15 @@ impl IndexMut<usize> for Mat3 {
     }
 }
 
-impl Mat2 {
+impl<T> Mat2<T>
+where
+    T: One + Zero,
+{
     pub fn identity() -> Self {
         Self {
-            x: [1.0, 0.0, 0.0].into(),
-            y: [0.0, 1.0, 0.0].into(),
-            z: [0.0, 0.0, 1.0].into(),
+            x: [T::one(), T::zero(), T::zero()].into(),
+            y: [T::zero(), T::one(), T::zero()].into(),
+            z: [T::zero(), T::zero(), T::one()].into(),
         }
     }
 
@@ -135,13 +144,16 @@ impl Mat2 {
     }
 }
 
-impl Mat3 {
+impl<T> Mat3<T>
+where
+    T: Zero + One,
+{
     pub fn identity() -> Self {
         Self {
-            x: [1.0, 0.0, 0.0, 0.0].into(),
-            y: [0.0, 1.0, 0.0, 0.0].into(),
-            z: [0.0, 0.0, 1.0, 0.0].into(),
-            w: [0.0, 0.0, 0.0, 1.0].into(),
+            x: [T::one(), T::zero(), T::zero(), T::zero()].into(),
+            y: [T::zero(), T::one(), T::zero(), T::zero()].into(),
+            z: [T::zero(), T::zero(), T::one(), T::zero()].into(),
+            w: [T::zero(), T::zero(), T::zero(), T::one()].into(),
         }
     }
 
@@ -150,7 +162,10 @@ impl Mat3 {
     }
 }
 
-impl std::fmt::Display for Mat2 {
+impl<T> std::fmt::Display for Mat2<T>
+where
+    T: Display,
+{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for i in 0..3 {
             write!(f, "[ ")?;
@@ -167,7 +182,10 @@ impl std::fmt::Display for Mat2 {
     }
 }
 
-impl std::fmt::Display for Mat3 {
+impl<T> std::fmt::Display for Mat3<T>
+where
+    T: Display,
+{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for i in 0..4 {
             write!(f, "[ ")?;
@@ -190,8 +208,8 @@ impl std::fmt::Display for Mat3 {
 
 #[test]
 fn test_mat_fmt() {
-    let _a = Mat3::identity();
+    let _a = Mat3f::identity();
     println!("{}\n", _a);
-    let _a = Mat2::identity();
+    let _a = Mat2f::identity();
     println!("{}", _a);
 }

@@ -260,8 +260,8 @@ impl<T, const N: usize> IndexMut<W> for VecN<T, N> {
 }
 
 impl<T, const N: usize> From<[T; N]> for VecN<T, N> {
-    fn from(v: [T; N]) -> Self {
-        Self { inner: v }
+    fn from(inner: [T; N]) -> Self {
+        Self { inner }
     }
 }
 
