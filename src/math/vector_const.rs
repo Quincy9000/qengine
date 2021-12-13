@@ -368,7 +368,6 @@ fn test_math() {
 #[test]
 fn test_lerp() {
     let mut v = Vec2f::from([0.0, 0.0]);
-
     for _ in 0..100_000 {
         v = v.lerp([100.0, 100.0], 0.0001);
         println!("{}", v);

@@ -1,8 +1,4 @@
-use std::{
-    ops::{Index, Neg},
-    process::Output,
-    sync::Once,
-};
+use std::ops::{Index, Neg};
 
 pub mod color;
 pub mod matrix;
@@ -10,40 +6,6 @@ pub mod vector;
 pub mod vector_const;
 
 const CHAR_DIM: [char; 4] = ['x', 'y', 'z', 'w'];
-
-// const ITER_DIMS: (X, Y, Z, W) = (X, Y, Z, W);
-
-// impl Index<X> for (X, Y, Z, W) {
-//     type Output = X;
-
-//     fn index(&self, index: X) -> &Self::Output {
-//         &self.0
-//     }
-// }
-
-// impl Index<Y> for (X, Y, Z, W) {
-//     type Output = Y;
-
-//     fn index(&self, index: Y) -> &Self::Output {
-//         &self.1
-//     }
-// }
-
-// impl Index<Z> for (X, Y, Z, W) {
-//     type Output = Z;
-
-//     fn index(&self, index: Z) -> &Self::Output {
-//         &self.2
-//     }
-// }
-
-// impl Index<W> for (X, Y, Z, W) {
-//     type Output = W;
-
-//     fn index(&self, index: W) -> &Self::Output {
-//         &self.3
-//     }
-// }
 
 pub struct X;
 pub struct Y;
