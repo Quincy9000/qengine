@@ -81,7 +81,7 @@ where
 
     pub fn clamp(self, min: Self, max: Self) -> Self
     where
-        T: Clamp<T>,
+        T: Clamp,
     {
         let mut new = self;
         for i in 0..N {

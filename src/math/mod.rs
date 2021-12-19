@@ -2,6 +2,7 @@ use std::ops::{Index, Neg};
 
 pub mod color;
 pub mod matrix;
+pub mod random;
 pub mod vector;
 
 const CHAR_DIM: [char; 4] = ['x', 'y', 'z', 'w'];
@@ -35,7 +36,7 @@ pub trait Abs<T> {
     fn abs(&self) -> T;
 }
 
-pub trait Clamp<T> {
+pub trait Clamp {
     fn clamp(self, min: Self, max: Self) -> Self;
 }
 
@@ -63,7 +64,7 @@ impl Abs<f32> for f32 {
     }
 }
 
-impl Clamp<f32> for f32 {
+impl Clamp for f32 {
     fn clamp(self, min: Self, max: Self) -> Self {
         f32::clamp(self, min, max)
     }
@@ -93,7 +94,7 @@ impl Abs<f64> for f64 {
     }
 }
 
-impl Clamp<f64> for f64 {
+impl Clamp for f64 {
     fn clamp(self, min: Self, max: Self) -> Self {
         f64::clamp(self, min, max)
     }
